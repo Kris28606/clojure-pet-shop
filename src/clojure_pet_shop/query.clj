@@ -5,29 +5,34 @@
   
   (defentity korisnik)
   
-  (defn get-users []
+  (defn get-clients []
     (select korisnik))
   
-  (defn get-user [korisnikId]
+  (defn get-client [clientId]
     (first
-     (select korisnik
-             (where {:korisnikId [= korisnikId]}))))
+     (select korisnik 
+             (where {:korisnikId [= clientId]}) 
+             (limit 1))))
   
-  (defn add-user [newKorisnik]
-    (insert korisnik
-            (values {:ime (get newKorisnik :ime)
-                     :prezime (get newKorisnik :prezime)
-                     :korisnickoIme (get newKorisnik :korisnickoIme)
-                     :korisnickaSifra (get newKorisnik :korisnickaSifra)})))
+  (defn add-client [newClient]
+    (def result (insert korisnik 
+                        (values {:ime (get newClient :ime)
+                                 :prezime (get newClient :prezime)
+                                 :korisnickoIme (get newClient :korisnickoIme)
+                                 :korisnickaSifra (get newClient :korisnickaSifra)})))
+    (def insertedId (get result :generated_key))
+    (get-client insertedId)
+    )
   
-  (defn update-user [korisnikId ime prezime korisnickoIme korisnickaSifra]
+  (defn update-client [clientId updatedClient]
     (update korisnik
-            (set-fields {:ime ime
-                         :prezime prezime
-                         :korisnickoIme korisnickoIme
-                         :korisnickaSifra korisnickaSifra})
-            (where {:korisnikId [= korisnikId]})))
+            (set-fields {:ime (get updatedClient :ime)
+                          :prezime (get updatedClient :prezime)
+                          :korisnickoIme (get updatedClient :korisnickoIme)
+                          :korisnickaSifra (get updatedClient :korisnickaSifra)})
+             (where {:korisnikId [= clientId]}))
+            (get-client clientId))
   
-  (defn delete-user [korisnikId]
+  (defn delete-client [korisnikId]
     (delete korisnik
             (where {:korisnikId [= korisnikId]})))

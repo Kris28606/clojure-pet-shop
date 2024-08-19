@@ -12,18 +12,35 @@
      :spec "/swagger.json"
      :data {:info {:title "PetShop API"
                    :description "API for a college project made with clojure"}
-            :tags [{:name "users", :description "users api."}]}}}
+            :tags [{:name "client", :description "client api."}]}}}
 
-   (context "/users" []
-     :tags ["users"]
+   (context "/clients" []
+     :tags ["clients"]
 
      (GET "/" []
        :return [Korisnik]
-       :summary "Gets all users"
-       (ok (get-users)))
+       :summary "Return all clients from db"
+       (ok (get-clients)))
+     
+     (GET "/:id" []
+       :return Korisnik
+       :path-params [id :- s/Any]
+       :summary "Return client by specific ID"
+       (ok (get-client id)))
+     
+     (PUT "/:id" []
+       :summary "Update client with specific ID"
+       :path-params [id :- s/Any]
+       :body [updatedClient NewKorisnik]
+       (ok (update-client id updatedClient)))
+     
+     (DELETE "/:id" []
+       :summary "Delete client with specific ID"
+       :path-params [id :- s/Any]
+       (ok (delete-client id)))
 
      (POST "/" []
-       :summary "Creates a new user"
-       :body [newKorisnik NewKorisnik]
-       (ok (add-user newKorisnik))))))
+       :summary "Create new client"
+       :body [newClient NewKorisnik]
+       (ok (add-client newClient))))))
 
