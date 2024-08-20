@@ -32,19 +32,21 @@
      (def insertedClientId (get insertClientResult :generated_key))
      (get-client insertedClientId))))
 
+(defn parse-int [s]
+  (Integer/parseInt (re-find #"\A-?\d+" s)))
+
 (defn update-client [clientId updatedClient]
    (def existingClient (get-client clientId))
    (def existingClientByUsername (get-client-by-username (get updatedClient :username))) 
    (if existingClient
-     ((if existingClientByUsername
-        (constantly "User with that username already exists")
-        ((update client
-                 (set-fields {:firstName (get updatedClient :firstName)
-                              :lastName (get updatedClient :lastName)
-                              :username (get updatedClient :username)
-                              :password (get updatedClient :password)})
-                 (where {:clientId [= clientId]}))
-         (constantly nil))))
+      (if (and existingClientByUsername (not= (parse-int clientId) (get existingClientByUsername :clientId)))
+       "User with that username already exists"
+       (update client
+               (set-fields {:firstName (get updatedClient :firstName)
+                            :lastName (get updatedClient :lastName)
+                            :username (get updatedClient :username)
+                            :password (get updatedClient :password)})
+               (where {:clientId [= clientId]})))
      (format "Cannot find user with id %s" clientId))
    (get-client clientId))
 

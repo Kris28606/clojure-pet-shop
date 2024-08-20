@@ -32,16 +32,24 @@
        :summary "Update client with specific ID"
        :path-params [id :- s/Any]
        :body [updatedClient NewClient]
-       (ok (update-client id updatedClient)))
+       (def updateClientResult (update-client id updatedClient))
+       (if (= (type updateClientResult) java.lang.Integer)
+         (ok nil)
+         (bad-request updateClientResult)))
      
      (DELETE "/:id" []
        :summary "Delete client with specific ID"
        :path-params [id :- s/Any] 
-       (delete-client id) 
-       (ok nil))
+       (def deleteClientResult (delete-client id))
+        (if (= (type deleteClientResult) java.lang.String)
+          (bad-request deleteClientResult)
+          (ok nil)))
 
      (POST "/" []
        :summary "Create new client"
        :body [newClient NewClient]
-       (ok (add-client newClient))))))
+       (def createNewClientResult (add-client newClient))
+       (if (= (type createNewClientResult) java.lang.String)
+         (bad-request createNewClientResult)
+         (ok createNewClientResult))))))
 
