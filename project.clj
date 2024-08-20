@@ -18,8 +18,8 @@
                  [metosin/compojure-api "2.0.0-alpha19"]]
   :plugins [[lein-ring "0.12.5"]            ; lein-ring plugin
             [compojure "1.6.1"]]
-  :main ^:skip-aot clojure-pet-shop.core
-  :ring {:handler clojure-pet-shop.core/app}  ; Configure Ring handler
+  :main ^:skip-aot clojure-pet-shop.api.core
+  :ring {:handler clojure-pet-shop.api.core/app}  ; Configure Ring handler
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})

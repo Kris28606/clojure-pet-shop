@@ -1,5 +1,5 @@
-(ns clojure-pet-shop.query
-  (:require [clojure-pet-shop.database]
+(ns clojure-pet-shop.repository.clientRep
+  (:require [clojure-pet-shop.sql.database]
             [clojure-pet-shop.domain.client :refer :all]
             [korma.core :refer :all]))
 

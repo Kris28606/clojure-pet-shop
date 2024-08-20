@@ -1,4 +1,4 @@
-(ns clojure-pet-shop.database
+(ns clojure-pet-shop.sql.database
   (:require [korma.db :as korma]))
   
   (def db-connection-info (korma/mysql

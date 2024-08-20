@@ -1,12 +1,13 @@
-(ns clojure-pet-shop.core
+(ns clojure-pet-shop.api.core
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
             [clojure-pet-shop.domain.client :refer :all]
-            [clojure-pet-shop.query :refer :all]))
+            [clojure-pet-shop.repository.clientRep :refer :all]))
 
 (def app
   (api
+   ; Clients api
    {:swagger
     {:ui "/"
      :spec "/swagger.json"
