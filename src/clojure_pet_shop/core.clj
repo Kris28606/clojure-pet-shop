@@ -18,12 +18,12 @@
      :tags ["clients"]
 
      (GET "/" []
-       :return [Korisnik]
+       :return [Client]
        :summary "Return all clients from db"
        (ok (get-clients)))
      
      (GET "/:id" []
-       :return Korisnik
+       :return Client
        :path-params [id :- s/Any]
        :summary "Return client by specific ID"
        (ok (get-client id)))
@@ -31,7 +31,7 @@
      (PUT "/:id" []
        :summary "Update client with specific ID"
        :path-params [id :- s/Any]
-       :body [updatedClient NewKorisnik]
+       :body [updatedClient NewClient]
        (ok (update-client id updatedClient)))
      
      (DELETE "/:id" []
@@ -41,6 +41,6 @@
 
      (POST "/" []
        :summary "Create new client"
-       :body [newClient NewKorisnik]
+       :body [newClient NewClient]
        (ok (add-client newClient))))))
 

@@ -4,10 +4,10 @@
                            
 ;; Domain
                            
-(s/defschema Korisnik {:korisnikId      Integer
-                       :ime             String
-                       :prezime         String
-                       :korisnickoIme   String
-                       :korisnickaSifra String})
+(s/defschema Client {:clientId   Integer 
+                     :firstName  String 
+                     :lastName   String 
+                     :username   String 
+                     :password   String})
                            
-(s/defschema NewKorisnik (dissoc Korisnik :korisnikId))
+(s/defschema NewClient (dissoc Client :clientId))

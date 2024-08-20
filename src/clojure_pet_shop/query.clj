@@ -3,36 +3,42 @@
              [clojure-pet-shop.domain :refer :all]
              [korma.core :refer :all]))
   
-  (defentity korisnik)
+  (defentity client)
   
   (defn get-clients []
-    (select korisnik))
+    (select client))
   
   (defn get-client [clientId]
     (first
-     (select korisnik 
-             (where {:korisnikId [= clientId]}) 
+     (select client 
+             (where {:clientId [= clientId]}) 
+             (limit 1))))
+  
+  (defn get-client-by-username [username]
+    (first
+     (select client
+             (where {:username [= username]})
              (limit 1))))
   
   (defn add-client [newClient]
-    (def result (insert korisnik 
-                        (values {:ime (get newClient :ime)
-                                 :prezime (get newClient :prezime)
-                                 :korisnickoIme (get newClient :korisnickoIme)
-                                 :korisnickaSifra (get newClient :korisnickaSifra)})))
+    (def result (insert client 
+                        (values {:firstName (get newClient :firstName)
+                                 :lastName (get newClient :lastName)
+                                 :username (get newClient :username)
+                                 :password (get newClient :password)})))
     (def insertedId (get result :generated_key))
     (get-client insertedId)
     )
   
   (defn update-client [clientId updatedClient]
-    (update korisnik
-            (set-fields {:ime (get updatedClient :ime)
-                          :prezime (get updatedClient :prezime)
-                          :korisnickoIme (get updatedClient :korisnickoIme)
-                          :korisnickaSifra (get updatedClient :korisnickaSifra)})
-             (where {:korisnikId [= clientId]}))
+    (update client
+            (set-fields {:firstName (get updatedClient :firstName)
+                          :lastName (get updatedClient :lastName)
+                          :username (get updatedClient :username)
+                          :password (get updatedClient :password)})
+             (where {:clientId [= clientId]}))
             (get-client clientId))
   
-  (defn delete-client [korisnikId]
-    (delete korisnik
-            (where {:korisnikId [= korisnikId]})))
+  (defn delete-client [clientId]
+    (delete client
+            (where {:clientId [= clientId]})))
