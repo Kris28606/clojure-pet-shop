@@ -23,10 +23,10 @@
        (ok (get-clients)))
      
      (GET "/:id" []
-       :return Client
        :path-params [id :- s/Any]
        :summary "Return client by specific ID"
-       (ok (get-client id)))
+       (def foundClient (get-client id)) 
+       (if foundClient (ok foundClient) (not-found)))
      
      (PUT "/:id" []
        :summary "Update client with specific ID"
@@ -36,8 +36,9 @@
      
      (DELETE "/:id" []
        :summary "Delete client with specific ID"
-       :path-params [id :- s/Any]
-       (ok (delete-client id)))
+       :path-params [id :- s/Any] 
+       (delete-client id) 
+       (ok nil))
 
      (POST "/" []
        :summary "Create new client"
