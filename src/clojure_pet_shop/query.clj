@@ -1,6 +1,6 @@
 (ns clojure-pet-shop.query
   (:require [clojure-pet-shop.database]
-            [clojure-pet-shop.domain :refer :all]
+            [clojure-pet-shop.domain.client :refer :all]
             [korma.core :refer :all]))
 
 (defentity client)

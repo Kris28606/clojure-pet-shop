@@ -2,7 +2,7 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [schema.core :as s]
-            [clojure-pet-shop.domain :refer :all]
+            [clojure-pet-shop.domain.client :refer :all]
             [clojure-pet-shop.query :refer :all]))
 
 (def app
