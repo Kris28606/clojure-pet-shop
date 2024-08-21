@@ -4,7 +4,9 @@
             [schema.core :as s]
             [clojure-pet-shop.domain.client :refer :all]
             [clojure-pet-shop.domain.manufacturer :refer :all]
+            [clojure-pet-shop.domain.product :refer :all]
             [clojure-pet-shop.repository.clientRep :refer :all]
+            [clojure-pet-shop.repository.productRep :refer :all]
             [clojure-pet-shop.repository.manufacturerRep :refer :all]))
 
 (def app
@@ -16,7 +18,8 @@
      :data {:info {:title "PetShop API"
                    :description "PetShop API for a college project made with clojure"}
             :tags [{:name "clients", :description "Client API"}
-                   {:name "manufacturers", :description "Manufacturer API"}]}}}
+                   {:name "manufacturers", :description "Manufacturer API"}
+                   {:name "products", :description "Pet products API"}]}}}
 
    (context "/clients" []
      :tags ["clients"]
@@ -55,8 +58,8 @@
        (def createNewClientResult (add-client newClient))
        (if (= (type createNewClientResult) java.lang.String)
          (bad-request createNewClientResult)
-         (ok createNewClientResult)))) 
-   
+         (ok createNewClientResult))))
+
    (context "/manufacturers" []
      :tags ["manufacturers"]
 
@@ -94,5 +97,44 @@
        (def deleteManufacturerResult (delete-manufacturer id))
        (if (= (type deleteManufacturerResult) java.lang.String)
          (bad-request deleteManufacturerResult)
+         (ok nil)))) 
+   
+   (context "/products" []
+     :tags ["products"]
+
+     (GET "/" []
+       :return [PetProduct]
+       :summary "Get all pet products"
+       (ok (get-pet-products)))
+
+     (GET "/:id" []
+       :path-params [id :- s/Any]
+       :summary "Get pet product by specific ID"
+       (def foundPetProduct (get-pet-product id))
+       (if foundPetProduct (ok foundPetProduct) (not-found)))
+
+     (POST "/" []
+       :summary "Create new pet product"
+       :body [newPetProduct NewPetProduct]
+       (def createPetProductResult (create-pet-product newPetProduct))
+       (if (= (type createPetProductResult) java.lang.String)
+         (bad-request createPetProductResult)
+         (ok createPetProductResult)))
+
+     (PUT "/:id" []
+       :summary "Update pet product by specific ID"
+       :path-params [id :- s/Any]
+       :body [updatedPetProduct NewPetProduct]
+       (def updatedPetProductResult (update-pet-product id updatedPetProduct))
+       (if (= (type updatedPetProductResult) java.lang.Integer)
+         (ok nil)
+         (bad-request updatedPetProductResult)))
+
+     (DELETE "/:id" []
+       :summary "Delete pet product by specific ID"
+       :path-params [id :- s/Any]
+       (def deletePetProductResult (delete-pet-product id))
+       (if (= (type deletePetProductResult) java.lang.String)
+         (bad-request deletePetProductResult)
          (ok nil))))))
 

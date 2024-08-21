@@ -6,6 +6,6 @@
                          :productName  String
                          :type             String
                          :price            Double
-                         :manufacturerId   String})
+                         :manufacturerId   Integer})
 
 (s/defschema NewPetProduct (dissoc PetProduct :productId))
