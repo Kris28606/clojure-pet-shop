@@ -4,6 +4,7 @@
 
 (s/defschema Manufacturer {:manufacturerId   Integer
                            :name           String
-                           :country          String})
+                           :country          String
+                           :address         String})
 
 (s/defschema NewManufacturer (dissoc Manufacturer :manufacturerId))
