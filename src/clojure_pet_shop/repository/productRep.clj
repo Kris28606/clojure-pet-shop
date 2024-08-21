@@ -23,6 +23,13 @@
              (where {:productName [= name]})
              (limit 1))))
   
+  (defn get-pet-products-for-manufacturer [manufacturerId]
+    (def manufacturerToGetPetProducts (get-manufacturer manufacturerId))
+    (if manufacturerToGetPetProducts
+      (select petProduct
+              (where {:manufacturerId [= manufacturerId]}))
+      (format "Manufacturer with ID %s doesn't exist!" manufacturerId)))
+  
   (defn create-pet-product [newPetProduct]
     (def existingPetProduct (get-pet-product-by-name (get newPetProduct :productName)))
     (def existingManufacturerById (get-manufacturer (get newPetProduct :manufacturerId)))

@@ -136,5 +136,10 @@
        (def deletePetProductResult (delete-pet-product id))
        (if (= (type deletePetProductResult) java.lang.String)
          (bad-request deletePetProductResult)
-         (ok nil))))))
+         (ok nil)))
+     
+     (GET "/:manufacturerId/products" []
+       :summary "Get all products from manufacturer with specific ID"
+       :path-params [manufacturerId :- s/Any]
+       (ok (get-pet-products-for-manufacturer manufacturerId))))))
 
