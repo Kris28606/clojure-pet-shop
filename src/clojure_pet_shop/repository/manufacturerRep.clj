@@ -1,6 +1,7 @@
 (ns clojure-pet-shop.repository.manufacturerRep
   (:require [clojure-pet-shop.sql.database] 
             [clojure-pet-shop.domain.manufacturer :refer :all] 
+            [clojure-pet-shop.utility.helper :refer :all]
             [korma.core :refer :all]))
   
   (defentity manufacturer)
@@ -32,14 +33,11 @@
        (def insertedManufacturerId (get insertManufacturerResult :generated_key))
        (get-manufacturer insertedManufacturerId))))
 
-  (defn parse-integer [s]
-    (Integer/parseInt (re-find #"\A-?\d+" s)))
-
   (defn update-manufacturer [manufacturerId updatedManufacturer]
     (def existingManufacturer (get-manufacturer manufacturerId))
     (def existingManufacturerByName (get-manufacturer-by-name (get updatedManufacturer :name)))
     (if existingManufacturer
-      (if (and existingManufacturerByName (not= (parse-integer manufacturerId) (get existingManufacturerByName :manufacturerId)))
+      (if (and existingManufacturerByName (not= (parse-int manufacturerId) (get existingManufacturerByName :manufacturerId)))
         (format "Manufacturer with name %s already exist!" (get updatedManufacturer :name))
         (update manufacturer
                 (set-fields {:name (get updatedManufacturer :name)

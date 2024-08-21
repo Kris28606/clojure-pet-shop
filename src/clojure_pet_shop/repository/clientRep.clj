@@ -1,6 +1,7 @@
 (ns clojure-pet-shop.repository.clientRep
   (:require [clojure-pet-shop.sql.database]
             [clojure-pet-shop.domain.client :refer :all]
+            [clojure-pet-shop.utility.helper :refer :all]
             [korma.core :refer :all]))
 
 (defentity client)
@@ -31,9 +32,6 @@
                                                 :password (get newClient :password)})))
      (def insertedClientId (get insertClientResult :generated_key))
      (get-client insertedClientId))))
-
-(defn parse-int [s]
-  (Integer/parseInt (re-find #"\A-?\d+" s)))
 
 (defn update-client [clientId updatedClient]
    (def existingClient (get-client clientId))
