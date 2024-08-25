@@ -45,7 +45,7 @@ CREATE TABLE `manufacturer` (
   `manufacturerId` int(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `country` varchar(20) COLLATE utf8_bin DEFAULT NULL,
-  `address` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `address` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`manufacturerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -62,9 +62,9 @@ DROP TABLE IF EXISTS `product`;
 
 CREATE TABLE `petProduct` (
   `productId` int(20) NOT NULL AUTO_INCREMENT,
-  `productName` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `productName` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `price` double DEFAULT NULL,
-  `type` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `type` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `manufacturerId` int(20) DEFAULT NULL,
   PRIMARY KEY (`productId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -73,7 +73,7 @@ CREATE TABLE `petProduct` (
 
 insert  into `proizvod`(`productId`,`productName`,`price`,`type`,`manufacturerId`) values 
 (65,'Premil sunrise 3 kg',990,'Superpremium suva hrana za pse',2),
-(67,'Acana puppy small breed 6kg',7.452,'Vrhunska suva hrana za pse',1),
+(67,'Acana puppy small breed 6kg',7452,'Vrhunska suva hrana za pse',1),
 (68,'CAMON Ogrlica za pse',539,'Ogrlica za pse',3),
 (92,'CAMON Zatezna ogrlica za pse',409,'Ogrlica za pse',3);
 
@@ -94,11 +94,9 @@ CREATE TABLE `invoice` (
 /*Data for the table `invoice` */
 
 insert  into `invoice`(`invoiceId`,`dateOfShopping`,`totalPrice`,`clientId`) values 
-(50,'2024-02-20 12:00:00',112640,30),
-(51,'2024-01-20 12:00:00',69560,56),
-(52,'2024-05-20 12:00:00',27680,57),
-(53,'2024-06-20 12:00:00',14590,58),
-(54,'2024-02-20 12:00:00',42980,30);
+(50,'2024-02-20 12:00:00',9432,30),
+(51,'2024-01-20 12:00:00',1078,56),
+(52,'2024-05-20 12:00:00',818,57);
 
 /*Table structure for table `invoiceItem` */
 
@@ -121,10 +119,10 @@ CREATE TABLE `invoiceItem` (
 /*Data for the table `stavkaracuna` */
 
 insert  into `stavkaracuna`(`sequenceNumber`,`invoiceId`,`itemPrice`,`productId`,`quantity`) values 
-(1,71,29180,65,2),
-(1,72,33800,67,2),
-(1,74,25980,68,2),
-(1,76,33980,69,2);
+(1,50,1980,65,2),
+(2,50,7452,67,1),
+(1,51,1078,68,2),
+(1,52,818,92,2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
