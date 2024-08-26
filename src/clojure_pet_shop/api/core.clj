@@ -162,10 +162,9 @@
        (def foundInvoices (get-invoices-for-client id))
        (if foundInvoices (ok foundInvoices) (not-found)))
 
-     (POST "/new/:id" []
-       :summary "Create new invoice for client with specific ID"
+     (POST "/new" []
+       :summary "Create new invoice"
        :body [newInvoice NewInvoice]
-       :path-params [id :- s/Any]
        (def createNewInvoiceResult (create-invoice newInvoice))
        (if (= (type createNewInvoiceResult) java.lang.String)
          (bad-request createNewClientResult)
