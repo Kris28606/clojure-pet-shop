@@ -5,9 +5,11 @@
             [clojure-pet-shop.domain.client :refer :all]
             [clojure-pet-shop.domain.manufacturer :refer :all]
             [clojure-pet-shop.domain.product :refer :all]
+            [clojure-pet-shop.domain.invoice :refer :all]
             [clojure-pet-shop.repository.clientRep :refer :all]
             [clojure-pet-shop.repository.productRep :refer :all]
-            [clojure-pet-shop.repository.manufacturerRep :refer :all]))
+            [clojure-pet-shop.repository.manufacturerRep :refer :all]
+            [clojure-pet-shop.repository.invoiceRep :refer :all]))
 
 (def app
   (api
@@ -19,7 +21,8 @@
                    :description "PetShop API for a college project made with clojure"}
             :tags [{:name "clients", :description "Client API"}
                    {:name "manufacturers", :description "Manufacturer API"}
-                   {:name "products", :description "Pet products API"}]}}}
+                   {:name "products", :description "Pet products API"}
+                   {:name "invoices", :description "Invoice API"}]}}}
 
    (context "/clients" []
      :tags ["clients"]
@@ -97,8 +100,8 @@
        (def deleteManufacturerResult (delete-manufacturer id))
        (if (= (type deleteManufacturerResult) java.lang.String)
          (bad-request deleteManufacturerResult)
-         (ok nil)))) 
-   
+         (ok nil))))
+
    (context "/products" []
      :tags ["products"]
 
@@ -137,9 +140,35 @@
        (if (= (type deletePetProductResult) java.lang.String)
          (bad-request deletePetProductResult)
          (ok nil)))
-     
+
      (GET "/:manufacturerId/products" []
        :summary "Get all products from manufacturer with specific ID"
        :path-params [manufacturerId :- s/Any]
-       (ok (get-pet-products-for-manufacturer manufacturerId))))))
+       (ok (get-pet-products-for-manufacturer manufacturerId))))
+
+   (context "/invoices" []
+     :tags ["invoices"]
+
+     (GET "/:id" []
+       :return [Invoice]
+       :path-params [id :- s/Any]
+       :summary "Get invoice with specific ID"
+       (def foundInvoice (get-invoice-by-id id)) 
+       (if foundInvoice (ok foundInvoice) (not-found)))
+
+     (GET "/client/:id" []
+       :path-params [id :- s/Any]
+       :summary "Get all invoices for client with specific ID"
+       (def foundInvoices (get-invoices-for-client id))
+       (if foundInvoices (ok foundInvoices) (not-found)))
+
+     (POST "/new/:id" []
+       :summary "Create new invoice for client with specific ID"
+       :body [newInvoice NewInvoice]
+       :path-params [id :- s/Any]
+       (def createNewInvoiceResult (create-invoice newInvoice))
+       (if (= (type createNewInvoiceResult) java.lang.String)
+         (bad-request createNewClientResult)
+         (ok createNewClientResult)))
+     )))
 

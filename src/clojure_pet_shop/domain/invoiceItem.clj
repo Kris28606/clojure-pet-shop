@@ -7,5 +7,3 @@
                           :itemPrice     Double
                           :quantity        Integer
                           :productId      Integer})
-
-(s/defschema Invoice (dissoc Invoice :invoiceId))
